@@ -47,6 +47,7 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDL\include;$(SolutionDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -65,6 +66,7 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)SDL\include;$(SolutionDir)ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -81,35 +83,15 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_allegro5.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_android.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_dx10.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_dx11.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_dx12.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_dx9.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_glut.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_metal.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_opengl2.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_osx.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_sdl2.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_sdl3.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_sdlrenderer2.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_sdlrenderer3.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_vulkan.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_wgpu.h" />
-    <ClInclude Include="Imgui\backends\imgui_impl_win32.h" />
-    <ClInclude Include="Imgui\imconfig.h" />
-    <ClInclude Include="Imgui\imgui.h" />
-    <ClInclude Include="Imgui\imgui_internal.h" />
-    <ClInclude Include="Imgui\imstb_rectpack.h" />
-    <ClInclude Include="Imgui\imstb_textedit.h" />
-    <ClInclude Include="Imgui\imstb_truetype.h" />
-    <ClInclude Include="Imgui\misc\cpp\imgui_stdlib.h" />
-    <ClInclude Include="Imgui\misc\freetype\imgui_freetype.h" />
-    <ClInclude Include="Imgui\misc\single_file\imgui_single_file.h" />
+    <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imgui.h" />
+    <ClInclude Include="ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="ImGui\imgui_impl_sdl2.h" />
+    <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MathGeoLib\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="MathGeoLib\include\Geometry\AABB.h" />
@@ -183,31 +165,13 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="glmath.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_allegro5.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_android.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_dx10.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_dx11.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_dx12.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_dx9.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_glut.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_opengl2.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_sdl2.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_sdl3.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_sdlrenderer2.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_sdlrenderer3.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_vulkan.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_wgpu.cpp" />
-    <ClCompile Include="Imgui\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="Imgui\imgui.cpp" />
-    <ClCompile Include="Imgui\imgui_demo.cpp" />
-    <ClCompile Include="Imgui\imgui_draw.cpp" />
-    <ClCompile Include="Imgui\imgui_tables.cpp" />
-    <ClCompile Include="Imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Imgui\misc\cpp\imgui_stdlib.cpp" />
-    <ClCompile Include="Imgui\misc\fonts\binary_to_compressed_c.cpp" />
-    <ClCompile Include="Imgui\misc\freetype\imgui_freetype.cpp" />
+    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />

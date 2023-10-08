@@ -285,6 +285,9 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>Externals\Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleGuiEditor.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -439,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>Externals\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleGuiEditor.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

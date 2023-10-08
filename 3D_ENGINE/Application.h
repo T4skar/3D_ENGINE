@@ -7,6 +7,7 @@
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleGuiEditor.h"
 
 #include<vector>
 
@@ -15,8 +16,10 @@ class Application
 public:
 	ModuleWindow* window;
 	ModuleInput* input;
+	ModuleGuiEditor* editor;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
+	
 
 private:
 

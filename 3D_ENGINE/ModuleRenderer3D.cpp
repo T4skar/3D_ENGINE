@@ -5,6 +5,10 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_opengl3.h"
+
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "glu32.lib") /* link Microsoft OpenGL lib   */
 #pragma comment (lib, "Glew/libx86/glew32.lib")
@@ -108,6 +112,10 @@ bool ModuleRenderer3D::Init()
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	Grid.axis = true;
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->editor->gl_context);
+	ImGui_ImplOpenGL3_Init("#version 130");
 
 	return ret;
 }

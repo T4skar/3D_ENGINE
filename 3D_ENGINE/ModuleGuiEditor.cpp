@@ -37,6 +37,13 @@ bool ModuleGuiEditor::Init()
 	return ret;
 }
 
+void ModuleGuiEditor::DrawEditor() {
+
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+}
+
 update_status ModuleGuiEditor::PostUpdate(float dt)
 {
     // Start the Dear ImGui frame

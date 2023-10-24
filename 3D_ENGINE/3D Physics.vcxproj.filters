@@ -466,5 +466,6 @@
     <None Include="MathGeoLib\include\Math\Matrix.inl">
       <Filter>Externals\MathGeoLib\Math</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

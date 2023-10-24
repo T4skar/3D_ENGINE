@@ -17,17 +17,21 @@ public:
 
 	ModuleGuiEditor(Application* app, bool start_enabled = true);
 	bool showDemo = false;
-	SDL_GLContext gl_context;
+	//SDL_GLContext gl_context;
+	SDL_GLContext context;
 	// Destructor
 	virtual ~ModuleGuiEditor();
 
 	bool Init();
+
+	void DrawEditor();
 	//update_status PreUpdate(float dt);
 	//update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	
+	bool showCubeDirectMode = false;
+	bool showCubeBufferColors = false;
 
 public:
 	

@@ -42,6 +42,15 @@ bool ModuleRenderer3D::Init()
 		ret = false;
 	}
 	
+	//GLEW                       
+	GLenum err = glewInit();
+	LOG("Using Glew %s", glewGetString(GLEW_VERSION));
+	
+	LOG("Vendor: %s", glGetString(GL_VENDOR));
+	LOG("Renderer: %s", glGetString(GL_RENDERER));
+	LOG("OpenGL version supported %s", glGetString(GL_VERSION));
+	LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
 	if(ret == true)
 	{
 		//Use Vsync
@@ -74,6 +83,10 @@ bool ModuleRenderer3D::Init()
 		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_LIGHTING);
+		glEnable(GL_COLOR_MATERIAL);
 		
 		//Initialize clear color
 		glClearColor(0.f, 0.f, 0.f, 1.f);

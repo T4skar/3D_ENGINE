@@ -45,6 +45,7 @@ bool ModuleRenderer3D::Init()
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
+<<<<<<< HEAD
 
 	//Glew Initialitation
 	GLenum err = glewInit();
@@ -59,6 +60,10 @@ bool ModuleRenderer3D::Init()
 
 
 	if (ret == true)
+=======
+	
+	if(ret == true)
+>>>>>>> parent of b136fb5 (OpenGl inizializacion)
 	{
 		//Use Vsync
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
@@ -87,10 +92,17 @@ bool ModuleRenderer3D::Init()
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
 			ret = false;
 		}
+<<<<<<< HEAD
 
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
 
+=======
+		
+		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		glClearDepth(1.0f);
+		
+>>>>>>> parent of b136fb5 (OpenGl inizializacion)
 		//Initialize clear color
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 

@@ -37,6 +37,18 @@ bool ModuleGuiEditor::Init()
 	return ret;
 }
 
+update_status ModuleGuiEditor::Update(float dt)
+{
+    float FPS = floorf(App->GetFrameRate());
+    float MS = (App->GetDt() * 1000.f);
+
+    PushLog(&fpsLog, FPS);
+    PushLog(&timeLog, MS);
+
+    return UPDATE_CONTINUE;
+}
+
+
 update_status ModuleGuiEditor::PostUpdate(float dt)
 {
     // Start the Dear ImGui frame
@@ -46,6 +58,201 @@ update_status ModuleGuiEditor::PostUpdate(float dt)
 
     ImGuiIO& io = ImGui::GetIO(); (void)io;
 
+    ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar |
+        ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus |
+        ImGuiWindowFlags_NoBackground;
+
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->Pos);
+    ImGui::SetNextWindowSize(viewport->Size);
+    ImGui::SetNextWindowViewport(viewport->ID);
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+    ImGui::Begin("BackGround Window", nullptr, windowFlags);
+
+    ImGui::PopStyleVar(3);
+
+    ImGuiID dockSpaceId = ImGui::GetID("BackGroundWindowDockSpace");
+
+    ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+    ImGui::End();
+
+	if (show_main_window)
+	{
+		//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		//SCREEN
+		ImGui::Begin("GameRender", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoScrollbar);
+		ImVec2 wsize = ImGui::GetWindowSize();
+
+		float w = ImGui::GetContentRegionAvail().x;
+		float h = w * (9.0f / 16.0f);
+		
+		ImGui::End();
+
+
+		//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		//MAIN WINDOW
+		ImGui::Begin("Main", NULL, ImGuiWindowFlags_MenuBar);
+
+		//Menus
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("Main"))
+			{
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("Info"))
+			{
+
+				if (ImGui::MenuItem("Documentation"))
+				{
+					//Meter el github
+				}
+				
+				if (ImGui::MenuItem("Hardware"))
+				{
+					show_hardware_window = true;
+				}
+				if (ImGui::MenuItem("About"))
+				{
+					show_credits_window = true;
+				}
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("View"))
+			{
+				
+			}
+
+			if (ImGui::BeginMenu("Exit"))
+			{
+				if (ImGui::MenuItem("Exit"))
+				{
+					show_main_window = false;                     //See ModuleImput 121
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+
+		//Main Window
+		ImGui::Text("Basic Geometric Forms:\n");
+		
+        //Aqui meter las formas basicas
+
+		ImGui::Text("\n");
+
+		ImGui::Text("Render Settings:\n");
+		
+		ImGui::Text("\n\n");
+
+		if (ImGui::CollapsingHeader("FRAMERATE"))
+		{
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			char title[25];
+			sprintf_s(title, 25, "Framerate %1.f", fpsLog[fpsLog.size() - 1]);
+			ImGui::PlotHistogram("##framerate", &fpsLog[0], fpsLog.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+			sprintf_s(title, 25, "Milliseconds %0.f", timeLog[timeLog.size() - 1]);
+			ImGui::PlotHistogram("##milliseconds", &timeLog[0], timeLog.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		}
+		ImGui::End();
+	}
+
+
+	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//ABOUT WINDOW
+
+	if (show_credits_window)
+	{
+		ImGui::Begin("About", &show_credits_window, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("Menu"))
+			{
+				if (ImGui::MenuItem("Settings"))
+				{
+
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+		ImGui::Text("Motor3D\n\n");
+		ImGui::Text("External Libraries:");
+		if (ImGui::Button("ImGui 1.88")) {
+
+			::ShellExecuteA(NULL, "open", "https://github.com/ocornut/imgui", NULL, NULL, SW_SHOWDEFAULT);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("MathGeoLib 2016")) {
+
+			::ShellExecuteA(NULL, "open", "https://github.com/juj/MathGeoLib", NULL, NULL, SW_SHOWDEFAULT);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Assimp")) {
+
+			::ShellExecuteA(NULL, "open", "https://github.com/assimp/assimp", NULL, NULL, SW_SHOWDEFAULT);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("DevIL")) {
+
+			::ShellExecuteA(NULL, "open", "https://github.com/DentonW/DevIL", NULL, NULL, SW_SHOWDEFAULT);
+		}
+		ImGui::SameLine();
+		ImGui::Text("\n\n");
+		if (ImGui::Button("Glew 2.1.0.0")) {
+
+			::ShellExecuteA(NULL, "open", "https://github.com/nigels-com/glew", NULL, NULL, SW_SHOWDEFAULT);
+		}
+		
+
+		ImGui::Text("\n\n");
+
+		//Aqui va el copirrigt y las licencias y toda la pesca
+
+		ImGui::End();
+	}
+
+
+	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//HARDWARE WINDOW
+	if (show_hardware_window)
+	{
+		ImGui::Begin("Hardware", &show_hardware_window, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("Menu"))
+			{
+				if (ImGui::MenuItem("Settings"))
+				{
+
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+		ImGui::Text("SDL Version: 2.0.4\n");
+		ImGui::Text("CPU's: %d", SDL_GetCPUCount());
+		ImGui::Text("RAM: %d", SDL_GetSystemRAM());
+
+		ImGui::Text("\n\n");
+
+		ImGui::End();
+	}
+
+
+
+
+
+
+
+	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		//DEMO WINDOW
+		// 
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         ImGui::ShowDemoWindow();
 
@@ -128,3 +335,16 @@ bool ModuleGuiEditor::CleanUp()
 	return true;
 }
 
+
+void ModuleGuiEditor::PushLog(std::vector<float>* Log, float toPush)
+{
+
+	if (Log->size() > 100)
+	{
+		Log->erase(Log->begin());
+		Log->push_back(toPush);
+	}
+	else Log->push_back(toPush);
+
+
+}

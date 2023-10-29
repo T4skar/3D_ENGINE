@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "SDL/include/SDL.h"
 #include "SDL/include/SDL_opengl.h"
+#include <vector>
 
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
@@ -23,11 +24,24 @@ public:
 
 	bool Init();
 	//update_status PreUpdate(float dt);
-	//update_status Update(float dt);
+	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	
+
+	void PushLog(std::vector<float>* Log, float toPush);
+
+
+
+	
+	bool show_main_window = true;
+	bool show_hardware_window = false;
+	bool show_credits_window = false;
+	bool console_visible = true;
+
+	std::vector<float> fpsLog;
+	std::vector<float> timeLog;
 
 public:
 	

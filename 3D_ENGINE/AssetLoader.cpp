@@ -1,55 +1,93 @@
 #include "Globals.h"
-#include "Application.h"
 #include "AssetLoader.h"
-#include "SDL\include\SDL_opengl.h"
-
 
 #include "ImGui/imgui.h"
+#include "imgui_impl_sdl2.h"
 #include "ImGui/imgui_impl_opengl3.h"
 
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-#include <SDL_opengles2.h>
-#else
-#include "SDL/include/SDL_opengl.h"
-#endif
+#include "cimport.h"
+#include "scene.h"
+#include "postprocess.h"
 
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
-
-AssetLoader::AssetLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
+#pragma comment (lib, "Assimp/libx86/assimp.lib")
+void AssetLoader::DebugMode()
 {
+	// Stream log messages to Debug window
+	struct aiLogStream stream;
+	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	aiAttachLogStream(&stream);
 }
 
-// Destructor
-AssetLoader::~AssetLoader()
-{}
-
-// Called before render is available
-bool AssetLoader::Init()
+void AssetLoader::LoadFile(char* file_path, AssetData* ourMesh)
 {
-	bool ret = true;
+	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
+	if (scene != nullptr && scene->HasMeshes())
+	{
+		// Use scene->mNumMeshes to iterate on scene->mMeshes array
+		aiReleaseImport(scene);
+	}
+	else
+		LOG("Error loading scene % s", file_path);
 
+	for (size_t i = 0; i < scene->mNumMeshes; i++)
+	{
+		// copy vertices
+		ourMesh->num_vertex = scene->mMeshes[i]->mNumVertices;
+		ourMesh->vertex = new float[ourMesh->num_vertex * 3];
+		memcpy(ourMesh->vertex, scene->mMeshes[i]->mVertices, sizeof(float) * ourMesh->num_vertex * 3);
+		LOG("New mesh with %d vertices", ourMesh->num_vertex);
 
+		// copy faces
+		if (scene->mMeshes[i]->HasFaces())
+		{
+			ourMesh->num_vertex = scene->mMeshes[i]->mNumFaces * 3;
+			ourMesh->index = new uint[ourMesh->num_index]; // assume each face is a triangle
 
-	return ret;
+			for (uint j = 0; j < scene->mMeshes[i]->mNumFaces; ++j)
+			{
+				if (scene->mMeshes[i]->mFaces[j].mNumIndices != 3)
+				{
+					LOG("WARNING, geometry face with != 3 indices!");
+				}
+				else
+				{
+					memcpy(&ourMesh->index[j * 3], scene->mMeshes[i]->mFaces[j].mIndices, 3 * sizeof(uint));
+				}
+			}
+		}
+	}
 }
 
-
-// PostUpdate present buffer to screen
-update_status AssetLoader::PostUpdate(float dt)
+void AssetLoader::CreateAssetBuffer(AssetData ourMesh)
 {
+	glGenBuffers(1, (GLuint*)&(ourMesh.id_vertex));
+	glBindBuffer(GL_ARRAY_BUFFER, ourMesh.id_vertex);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * ourMesh.num_vertex * 3, ourMesh.vertex, GL_STATIC_DRAW);
 
+	glGenBuffers(1, (GLuint*)&(ourMesh.id_index));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ourMesh.id_index);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * ourMesh.num_index, ourMesh.index, GL_STATIC_DRAW);
 
-
-	return UPDATE_CONTINUE;
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ourMesh.id_index);
 }
 
-// Called before quitting
-bool AssetLoader::CleanUp()
+void AssetLoader::RenderAsset(AssetData ourMesh)
 {
-	LOG("");
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	// Cleanup
 
-	return true;
+	glDrawElements(GL_TRIANGLES, ourMesh.num_vertex, GL_UNSIGNED_INT, NULL);
+
+	//Move
+	glPushMatrix();
+	glTranslatef(-0.5, 0.5, -0.5);
+	glPopMatrix();
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+void AssetLoader::CleanUp()
+{
+	// detach log stream
+	aiDetachAllLogStreams();
 }

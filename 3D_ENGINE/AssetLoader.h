@@ -1,27 +1,30 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include <SDL_gesture.h>
+#include "SDL_gesture.h"
+#include "Glew/include/glew.h"
+#include "SDL\include\SDL_opengl.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
+class aiAsset;
 
-class AssetLoader : public Module
+struct AssetData
 {
-public:
-	AssetLoader(Application* app, bool start_enabled = true);
-	~AssetLoader();
-
-	bool Init();
-	update_status PostUpdate(float dt) override;
-	bool CleanUp();
-
-
-public:
-
-	SDL_GLContext context;
-
-	bool show_demo_window = false;
-	bool show_credits_window = false;
-	bool show_main_window = true;
-	bool show_hardware_window = false;
-
+	uint id_index = 0; // index in VRAM
+	uint num_index = 0;
+	uint* index = nullptr;
+	uint id_vertex = 0; // unique vertex in VRAM
+	uint num_vertex = 0;
+	float* vertex = nullptr;
 };
+
+
+namespace AssetLoader
+{
+	void DebugMode();
+	void LoadFile(char* file_path, AssetData* ourMesh);
+	void CreateAssetBuffer(AssetData ourMesh);
+	void RenderAsset(AssetData ourMesh);
+	void CleanUp();
+}

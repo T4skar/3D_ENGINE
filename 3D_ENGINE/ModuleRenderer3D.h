@@ -6,6 +6,7 @@
 #include "MathGeoLib/include/Math/float3x3.h"
 #include "MathGeoLib/include/Math/float4x4.h"
 #include "Primitive.h"
+#include "AssetLoader.h"
 
 //todo: REMOVE this before 1st delivery!!
 #include "glmath.h"
@@ -33,6 +34,8 @@ public:
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	CPlane Grid;
+
+    AssetData ourMesh;
 
     uint num_vertices = 8;
     uint vboId = 0;

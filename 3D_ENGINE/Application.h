@@ -8,7 +8,6 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGuiEditor.h"
-#include "AssetLoader.h"
 
 #include<vector>
 
@@ -20,7 +19,7 @@ public:
 	ModuleGuiEditor* editor;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
-	AssetLoader* assetloader;
+	
 	
 
 private:

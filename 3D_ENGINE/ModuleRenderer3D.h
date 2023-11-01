@@ -23,6 +23,8 @@ public:
     update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
+    void InitFrameBuffer();
+    void RefreshBuffer();
 
 	void OnResize(int width, int height);
 
@@ -31,7 +33,19 @@ public:
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	CPlane Grid;
-	
+
+    uint num_vertices = 8;
+    uint vboId = 0;
+    uint iboId = 0;
+
+    unsigned int textureColorbuffer;
+    unsigned int framebuffer;
+    unsigned int renderbuffer;
+
+    int width = SCREEN_WIDTH;
+    int height = SCREEN_HEIGHT;
+
+
 	//You won't need this after using Frustum
 	mat4x4 ProjectionMatrix;
 };

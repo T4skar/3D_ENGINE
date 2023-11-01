@@ -85,12 +85,11 @@ update_status ModuleGuiEditor::PostUpdate(float dt)
 	{
 		//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		//SCREEN
-		ImGui::Begin("GameRender", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoScrollbar);
+		ImGui::Begin("GameRender", NULL, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoBringToFrontOnFocus);
+		ImGui::BeginChild("GameRender", ImVec2(SCREEN_WIDTH, SCREEN_HEIGHT));
 		ImVec2 wsize = ImGui::GetWindowSize();
-
-		float w = ImGui::GetContentRegionAvail().x;
-		float h = w * (9.0f / 16.0f);
-		
+		ImGui::Image((ImTextureID)App->renderer3D->textureColorbuffer, wsize, ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
 		ImGui::End();
 
 

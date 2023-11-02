@@ -24,4 +24,4 @@ In this small demo appears the BeaconHouse model.
 
 ## Thirth party libraries:
 
--[ImGui: ]((https://github.com/ocornut/imgui)https://github.com/ocornut/imgui)
+-[ImGui: ](https://github.com/ocornut/imgui)

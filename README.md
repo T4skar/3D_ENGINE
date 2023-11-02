@@ -25,9 +25,13 @@ In this small demo appears the BeaconHouse model.
 ## Thirth party libraries:
 
 -[ImGui 1.88 ](https://github.com/ocornut/imgui)
+
 -[MathGeoLib 2016 ](https://github.com/juj/MathGeoLib)
+
 -[Assimp ](https://github.com/assimp/assimp)
+
 -[DevIL ](https://github.com/DentonW/DevIL)
+
 -[Glew 2.1.0.0 ](https://github.com/nigels-com/glew)
 
 

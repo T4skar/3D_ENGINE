@@ -123,6 +123,8 @@ public:
 	bool hierarchy_visible = true;
 	bool inspector_visible = true;
 
+	bool wireframe = false;
+
 	std::vector<float> fpsLog;
 	std::vector<float> timeLog;
 

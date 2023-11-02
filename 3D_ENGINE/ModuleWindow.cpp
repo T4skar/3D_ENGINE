@@ -16,7 +16,7 @@ ModuleWindow::~ModuleWindow()
 // Called before render is available
 bool ModuleWindow::Init()
 {
-	int hp = 235435;
+	
 	LOG("Init SDL window & surface");
 	App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "Init SDL window & surface");
 	bool ret = true;

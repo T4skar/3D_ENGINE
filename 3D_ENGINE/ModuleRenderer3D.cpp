@@ -22,8 +22,7 @@
 
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-}
+{}
 
 // Destructor
 ModuleRenderer3D::~ModuleRenderer3D()
@@ -130,28 +129,28 @@ bool ModuleRenderer3D::Init()
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	Grid.axis = true;
+	//Grid.axis = true;
 	//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//FRAMEBUFFER
 	InitFrameBuffer();
 
 	//Mesh Buffer
-	AssetLoader::CreateAssetBuffer(ourMesh);
+	AssetLoader::LoadFile(filepath, &houseAsset);
 
 
 
-	glGenBuffers(1, &vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(normals) + sizeof(colors), 0, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);                             // copy vertices starting from 0 offest
-	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices), sizeof(normals), normals);                // copy normals after vertices
-	glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(normals), sizeof(colors), colors);  // copy colours after normals
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glGenBuffers(1, &vboId);
+	//glBindBuffer(GL_ARRAY_BUFFER, vboId);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(normals) + sizeof(colors), 0, GL_STATIC_DRAW);
+	//glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);                             // copy vertices starting from 0 offest
+	//glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices), sizeof(normals), normals);                // copy normals after vertices
+	//glBufferSubData(GL_ARRAY_BUFFER, sizeof(vertices) + sizeof(normals), sizeof(colors), colors);  // copy colours after normals
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, &iboId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glGenBuffers(1, &iboId);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	// Setup Platform/Renderer backends
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, context);
@@ -191,8 +190,10 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::Update(float dt)
 {
 
+	AssetLoader::Render();
+
 	//Wireframe mode
-	if (wireframe)
+	if (App->editor->wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -217,30 +218,30 @@ update_status ModuleRenderer3D::Update(float dt)
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
 
-	// enable vertex arrays
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_VERTEX_ARRAY);
+	//// enable vertex arrays
+	//glEnableClientState(GL_NORMAL_ARRAY);
+	//glEnableClientState(GL_COLOR_ARRAY);
+	//glEnableClientState(GL_VERTEX_ARRAY);
 
-	// before draw, specify vertex and index arrays with their offsets
-	glNormalPointer(GL_FLOAT, 0, (void*)sizeof(vertices));
-	glColorPointer(3, GL_FLOAT, 0, (void*)(sizeof(vertices) + sizeof(normals)));
-	glVertexPointer(3, GL_FLOAT, 0, 0);
+	//// before draw, specify vertex and index arrays with their offsets
+	//glNormalPointer(GL_FLOAT, 0, (void*)sizeof(vertices));
+	//glColorPointer(3, GL_FLOAT, 0, (void*)(sizeof(vertices) + sizeof(normals)));
+	//glVertexPointer(3, GL_FLOAT, 0, 0);
 
-	glDrawElements(GL_TRIANGLES,            // primitive type
-		36,                      // # of indices
-		GL_UNSIGNED_INT,         // data type
-		(void*)0);               // ptr to indices
+	//glDrawElements(GL_TRIANGLES,            // primitive type
+	//	36,                      // # of indices
+	//	GL_UNSIGNED_INT,         // data type
+	//	(void*)0);               // ptr to indices
 
-	glDisableClientState(GL_VERTEX_ARRAY);  // disable vertex arrays
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
+	//glDisableClientState(GL_VERTEX_ARRAY);  // disable vertex arrays
+	//glDisableClientState(GL_COLOR_ARRAY);
+	//glDisableClientState(GL_NORMAL_ARRAY);
 
-	// it is good idea to release VBOs with ID 0 after use.
-	// Once bound with 0, all pointers in gl*Pointer() behave as real
-	// pointer, so, normal vertex array operations are re-activated
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//// it is good idea to release VBOs with ID 0 after use.
+	//// Once bound with 0, all pointers in gl*Pointer() behave as real
+	//// pointer, so, normal vertex array operations are re-activated
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//FRAMEBUFFER
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -275,7 +276,6 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	//todo: USE MATHGEOLIB here BEFORE 1st delivery! (TIP: Use MathGeoLib/Geometry/Frustum.h, view and projection matrices are managed internally.)
 	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
 	glLoadMatrixf(ProjectionMatrix.M);
 

@@ -1,30 +1,52 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include <vector>
 #include "SDL_gesture.h"
 #include "Glew/include/glew.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
-class aiAsset;
+using namespace std;
 
-struct AssetData
+#define VERTEX_FEATURES 5
+
+
+struct AssetInfo
 {
+
+	AssetInfo() {}
+
+	~AssetInfo() {
+		delete[num_vertex]  vertex;
+		delete[num_index]  index;
+
+	}
+
 	uint id_index = 0; // index in VRAM
 	uint num_index = 0;
 	uint* index = nullptr;
 	uint id_vertex = 0; // unique vertex in VRAM
 	uint num_vertex = 0;
 	float* vertex = nullptr;
+
+	
+
+
+	void RenderAsset();
 };
 
 
-namespace AssetLoader
+class AssetLoader
 {
+public:
 	void DebugMode();
-	void LoadFile(char* file_path, AssetData* ourMesh);
-	void CreateAssetBuffer(AssetData ourMesh);
-	void RenderAsset(AssetData ourMesh);
+	static void LoadFile(const char* file_path, AssetInfo* ourAsset);
+
+	static void Render();
 	void CleanUp();
-}
+
+
+	static vector<AssetInfo*> assetList;
+};

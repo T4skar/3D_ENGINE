@@ -323,7 +323,7 @@ update_status ModuleGuiEditor::PostUpdate(float dt)
 			if (ImGui::CollapsingHeader("Options"))
 			{
 				ImGui::Text("Render Settings:\n");
-				ImGui::Checkbox("Wireframe Mode", &App->renderer3D->wireframe);
+				ImGui::Checkbox("Wireframe Mode", &wireframe);
 				ImGui::SameLine();
 				ImGui::Checkbox("Lights", &App->renderer3D->lights_active);
 

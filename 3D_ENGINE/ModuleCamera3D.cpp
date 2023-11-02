@@ -23,6 +23,7 @@ ModuleCamera3D::~ModuleCamera3D()
 bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
+	App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "Setting up the camera");
 	bool ret = true;
 
 	return ret;
@@ -50,8 +51,7 @@ update_status ModuleCamera3D::Update(float dt)
 	//Focus on the origin
 	if(App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) LookAt(float3(0, 0, 0));
 
-	//Camera Zoom
-
+	// CAMERA ZOOM 
 	//Zoom with mouseWheel
 	if (App->input->GetMouseZ() != 0) newPos -= Z * (speed * 10) * App->input->GetMouseZ();
 

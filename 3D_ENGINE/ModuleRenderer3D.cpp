@@ -32,7 +32,8 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init()
 {
-	//LOG("Creating 3D Renderer context");
+	LOG("Creating 3D Renderer");
+	App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "Creating 3D Renderer");
 	bool ret = true;
 	
 	//Create context
@@ -40,12 +41,14 @@ bool ModuleRenderer3D::Init()
 	if(context == NULL)
 	{
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
+		App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
 	
 	//GLEW                       
 	GLenum err = glewInit();
 	LOG("Using Glew %s", glewGetString(GLEW_VERSION));
+	App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "Initializing Glew");
 	
 
 	SDL_GL_MakeCurrent(App->window->window, context);
@@ -53,9 +56,10 @@ bool ModuleRenderer3D::Init()
 	if(ret == true)
 	{
 		//Use Vsync
-		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
+		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0) {
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
-
+			App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "Warning: Unable to set VSync!");
+		}
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -65,6 +69,7 @@ bool ModuleRenderer3D::Init()
 		if(error != GL_NO_ERROR)
 		{
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "Error initializing OpenGL!");
 			ret = false;
 		}
 
@@ -77,6 +82,7 @@ bool ModuleRenderer3D::Init()
 		if(error != GL_NO_ERROR)
 		{
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "Error initializing OpenGL!");
 			ret = false;
 		}
 		
@@ -95,6 +101,7 @@ bool ModuleRenderer3D::Init()
 		if(error != GL_NO_ERROR)
 		{
 			LOG("Error initializing OpenGL! %s\n", gluErrorString(error));
+			App->editor->consoleWindow.AddLog(__FILE__, __LINE__, "Error initializing OpenGL!");
 			ret = false;
 		}
 		
@@ -183,6 +190,30 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 update_status ModuleRenderer3D::Update(float dt)
 {
+
+	//Wireframe mode
+	if (wireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//Enable/Disable lights
+	if (lights_active == false)
+		glDisable(GL_LIGHTING);
+	else
+		glEnable(GL_LIGHTING);
+
+	//Enable/Disable depth test
+	if (depth_test_active == false)
+		glDisable(GL_DEPTH_TEST);
+	else
+		glEnable(GL_DEPTH_TEST);
+
+	//Enable/Disable cull face
+	if (cull_face_active == false)
+		glDisable(GL_CULL_FACE);
+	else
+		glEnable(GL_CULL_FACE);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vboId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId);
 

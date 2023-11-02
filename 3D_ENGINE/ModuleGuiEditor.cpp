@@ -177,6 +177,12 @@ update_status ModuleGuiEditor::PostUpdate(float dt)
 		{
 			//Load basic geometry
 		}
+		ImGui::SameLine();
+		if (ImGui::Button("BeaconHouse"))
+		{
+			//Load basic geometry
+		}
+
 		
 		ImGui::Text("\n\n");
 

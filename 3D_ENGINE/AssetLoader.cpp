@@ -52,7 +52,20 @@ void AssetLoader::LoadFile(const char* file_path, AssetInfo* ourAsset)
 						memcpy(&ourAsset->index[j * 3], scene->mMeshes[i]->mFaces[j].mIndices, 3 * sizeof(uint));
 					}
 				}
-				//AssetInfo::SetUpMesh(ourAsset);
+				//Create vertices and indices buffers
+				glGenBuffers(1, (GLuint*)&(ourAsset->id_vertex));
+				glGenBuffers(1, (GLuint*)&(ourAsset->id_index));
+
+				//Bind and fill buffers
+				glBindBuffer(GL_ARRAY_BUFFER, ourAsset->id_vertex);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * ourAsset->num_vertex * 3, ourAsset->vertex, GL_STATIC_DRAW);
+
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ourAsset->id_index);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * ourAsset->num_index, ourAsset->index, GL_STATIC_DRAW);
+
+				//Unbind buffers
+				glDisableClientState(GL_VERTEX_ARRAY);
+
 				assetList.push_back(ourAsset);
 			}
 
@@ -67,13 +80,20 @@ void AssetLoader::LoadFile(const char* file_path, AssetInfo* ourAsset)
 
 void AssetInfo::RenderAsset()
 {
-	glBegin(GL_TRIANGLES);
+	/*glBegin(GL_TRIANGLES);
 
 	for (int i = 0; i < num_index; i++) {
 		glVertex3f(vertex[index[i] * 3], vertex[index[i] * 3 + 1], vertex[index[i] * 3 + 2]);
 	}
 
-	glEnd();
+	glEnd();*/
+
+	glBindBuffer(GL_ARRAY_BUFFER, id_vertex);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_index);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glDrawElements(GL_TRIANGLES, num_index, GL_UNSIGNED_INT, NULL);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void AssetLoader::Render()

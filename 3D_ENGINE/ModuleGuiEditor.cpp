@@ -112,11 +112,11 @@ update_status ModuleGuiEditor::PostUpdate(float dt)
 			if (ImGui::BeginMenu("Info"))
 			{
 
-				if (ImGui::MenuItem("Documentation"))
+				if (ImGui::MenuItem("Github"))
 				{
-					ShellExecuteA(NULL, "open", "https://github.com/T4skar/3D_ENGINE/wiki", NULL, NULL, SW_SHOWDEFAULT);
+					ShellExecuteA(NULL, "open", "https://github.com/T4skar/3D_ENGINE", NULL, NULL, SW_SHOWDEFAULT);
 				}
-				if (ImGui::MenuItem("Download Latest"))
+				if (ImGui::MenuItem("Latest Release"))
 				{
 					ShellExecuteA(NULL, "open", "https://github.com/T4skar/3D_ENGINE/releases", NULL, NULL, SW_SHOWDEFAULT);
 				}
@@ -218,7 +218,7 @@ update_status ModuleGuiEditor::PostUpdate(float dt)
 			}
 			ImGui::EndMenuBar();
 		}
-		ImGui::Text("3DENGINE\n\n");
+		ImGui::Text("3D ENGINE\n\n");
 		ImGui::Text("External Libraries:");
 		if (ImGui::Button("ImGui 1.88")) {
 

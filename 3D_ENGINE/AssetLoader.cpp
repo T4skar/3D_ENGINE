@@ -108,7 +108,5 @@ void AssetLoader::CleanUp()
 {
 
 	assetList.clear();
-
-	// detach log stream
 	aiDetachAllLogStreams();
 }

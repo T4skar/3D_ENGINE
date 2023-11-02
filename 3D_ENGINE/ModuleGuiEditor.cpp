@@ -1,6 +1,9 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleGuiEditor.h"
+#include "ModuleRenderer3D.h"
+#include "AssetLoader.h"
+#include "Assimp/include/cimport.h"
 
 ModuleGuiEditor::ModuleGuiEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -161,29 +164,35 @@ update_status ModuleGuiEditor::PostUpdate(float dt)
 		}
 
 		//Main Window
-		ImGui::Text("Basic Geometric Forms:\n");
+		ImGui::Text("Basic Geometrics:\n");
 
 		if (ImGui::Button("Cube"))
 		{
-			//Load basic geometry
+			AssetLoader::LoadFile(cube_filepath, &cubeAsset);
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Cone"))
 		{
-			//Load basic geometry
+			AssetLoader::LoadFile(cone_filepath, &coneAsset);
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Sphere"))
 		{
-			//Load basic geometry
+			AssetLoader::LoadFile(sphere_filepath, &sphereAsset);
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("BeaconHouse"))
 		{
-			//Load basic geometry
+			AssetLoader::LoadFile(house_filepath, &houseAsset);
 		}
+		ImGui::Text("\n");
+		ImGui::Text("\n");
+		if (ImGui::Button("Clear screen"))
+		{
+			AssetLoader::assetList.clear();
+			aiDetachAllLogStreams();
 
-		
+		}
 		ImGui::Text("\n\n");
 
 		

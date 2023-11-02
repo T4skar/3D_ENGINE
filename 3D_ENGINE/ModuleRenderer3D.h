@@ -35,8 +35,10 @@ public:
 	SDL_GLContext context;
 	CPlane Grid;
 
-    const char* filepath = "Assets/BakerHouse.fbx";
+    const char* house_filepath = "Assets/BakerHouse.fbx";
     AssetInfo houseAsset;
+
+
 
     uint num_vertices = 8;
     uint vboId = 0;

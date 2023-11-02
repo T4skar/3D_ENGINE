@@ -135,7 +135,7 @@ bool ModuleRenderer3D::Init()
 	InitFrameBuffer();
 
 	//Mesh Buffer
-	AssetLoader::LoadFile(filepath, &houseAsset);
+	AssetLoader::LoadFile(house_filepath, &houseAsset);
 
 
 

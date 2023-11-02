@@ -111,6 +111,17 @@ public:
 
 	void PushLog(std::vector<float>* Log, float toPush);
 
+	const char* house_filepath = "Assets/BakerHouse.fbx";
+	AssetInfo houseAsset;
+
+	const char* cube_filepath = "Assets/cube.fbx";
+	AssetInfo cubeAsset;
+
+	const char* cone_filepath = "Assets/cone.fbx";
+	AssetInfo coneAsset;
+
+	const char* sphere_filepath = "Assets/sphere.fbx";
+	AssetInfo sphereAsset;
 	
 	bool show_main_window = true;
 	bool show_hardware_window = false;

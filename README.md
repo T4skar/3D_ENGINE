@@ -21,6 +21,11 @@ In this small demo appears the BeaconHouse model.
 - F to center the camera on the models
 - Holding the SHIFT multiplies the speed of the camera
 
+## Team members:
+
+-[Albert Martin ](https://github.com/T4skar)
+
+-[Adrian Ramírez  ](https://github.com/AdriRamirez)
 
 ## Thirth party libraries:
 

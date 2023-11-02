@@ -117,6 +117,10 @@ update_status ModuleInput::PreUpdate(float dt)
 		}
 	}
 
+	//Toggle Main Window on/off
+	if (keyboard[SDL_SCANCODE_M] == KEY_UP)
+		App->editor->show_main_window = !App->editor->show_main_window;
+
 	if(quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 		return UPDATE_STOP;
 
